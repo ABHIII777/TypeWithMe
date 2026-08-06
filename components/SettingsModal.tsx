@@ -10,8 +10,6 @@ interface SettingsModalProps {
 
 export function SettingsModal({ onClose }: SettingsModalProps) {
   const {
-    theme,
-    setTheme,
     soundEnabled,
     setSoundEnabled,
     testMode,
@@ -23,43 +21,45 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
   } = useTypingStore();
 
   const modes: TestMode[] = ['timed', 'words', 'quotes', 'survival'];
-  const themes = ['dark', 'light', 'neon', 'terminal'] as const;
   const durations = [15, 30, 60, 120];
   const wordCounts = [25, 50, 75, 100];
 
+  const toggleClass = (active: boolean) =>
+    `px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide border-2 border-black transition-colors btn-press ${
+      active
+        ? 'bg-black text-white brutal-shadow'
+        : 'bg-white text-black hover:bg-yellow-200'
+    }`;
+
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-md w-full max-h-96 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white border-[3px] border-black shadow-[8px_8px_0_0_#000] max-w-md w-full max-h-[90vh] overflow-y-auto animate-pop">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-gray-100">Settings</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-black bg-yellow-300 sticky top-0 z-10">
+          <h2 className="text-xl font-bold uppercase tracking-tight">⚙ Settings</h2>
           <Button
             onClick={onClose}
             variant="ghost"
-            size="sm"
-            className="text-gray-400 hover:text-gray-100"
+            size="icon-sm"
+            className="border-2 border-black bg-white text-black hover:bg-red-500 hover:text-white brutal-shadow"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </Button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-8">
           {/* Test Mode */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">
+            <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
               Test Mode
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               {modes.map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setTestMode(mode)}
-                  className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-                    testMode === mode
-                      ? 'bg-cyan-500 text-white'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  }`}
+                  className={toggleClass(testMode === mode)}
                 >
                   {mode.charAt(0).toUpperCase() + mode.slice(1)}
                 </button>
@@ -70,7 +70,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
           {/* Duration */}
           {testMode === 'timed' && (
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-3">
+              <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
                 Duration (seconds)
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -78,11 +78,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
                   <button
                     key={duration}
                     onClick={() => setTimerDuration(duration)}
-                    className={`px-3 py-2 rounded text-sm font-medium transition-colors ${
-                      timerDuration === duration
-                        ? 'bg-cyan-500 text-white'
-                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                    }`}
+                    className={toggleClass(timerDuration === duration)}
                   >
                     {duration}s
                   </button>
@@ -94,7 +90,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
           {/* Word Count */}
           {testMode === 'words' && (
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-3">
+              <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
                 Word Count
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -102,11 +98,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
                   <button
                     key={count}
                     onClick={() => setWordCount(count)}
-                    className={`px-3 py-2 rounded text-sm font-medium transition-colors ${
-                      wordCount === count
-                        ? 'bg-cyan-500 text-white'
-                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                    }`}
+                    className={toggleClass(wordCount === count)}
                   >
                     {count}
                   </button>
@@ -115,51 +107,43 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
             </div>
           )}
 
-          {/* Theme */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">
-              Theme
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-              {themes.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTheme(t)}
-                  className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-                    theme === t
-                      ? 'bg-cyan-500 text-white'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  }`}
-                >
-                  {t.charAt(0).toUpperCase() + t.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Sound Toggle */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-700">
-            <label className="text-sm font-semibold text-gray-300">Sound Effects</label>
+          <div className="flex items-center justify-between py-4 border-y-[3px] border-black">
+            <label className="font-mono text-xs uppercase tracking-widest text-black">
+              Sound Effects
+            </label>
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                soundEnabled ? 'bg-cyan-500' : 'bg-gray-700'
+              className={`relative inline-flex items-center h-9 w-20 border-2 border-black brutal-shadow transition-colors ${
+                soundEnabled ? 'bg-yellow-300' : 'bg-white'
               }`}
+              aria-pressed={soundEnabled}
             >
               <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                  soundEnabled ? 'translate-x-7' : 'translate-x-1'
-                }`}
-              />
+                className={`absolute inset-y-0 w-8 border-r-2 border-black transition-all ${
+                  soundEnabled
+                    ? 'left-12 bg-black text-yellow-300'
+                    : 'left-0 bg-gray-300 text-black'
+                } flex items-center justify-center`}
+              >
+                {soundEnabled ? (
+                  <Volume2 className="w-4 h-4" />
+                ) : (
+                  <VolumeX className="w-4 h-4" />
+                )}
+              </span>
+              <span className={`w-full text-center font-mono text-[10px] uppercase font-bold ${soundEnabled ? 'text-black/70' : 'text-black/40'}`}>
+                {soundEnabled ? 'on' : 'off'}
+              </span>
             </button>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-700 p-6">
+        <div className="border-t-[3px] border-black p-6">
           <Button
             onClick={onClose}
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white rounded font-semibold"
+            className="w-full bg-black text-white hover:bg-black/80 shadow-[4px_4px_0_0_#ffd400]"
           >
             Close
           </Button>

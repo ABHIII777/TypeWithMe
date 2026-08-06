@@ -13,6 +13,7 @@ import { playSound } from '@/lib/sound';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [testComplete, setTestComplete] = useState(false);
@@ -83,8 +84,18 @@ export default function Home() {
     reset();
   }, [testMode]);
 
+  // Wait until hydration is done so that the persisted store values
+  // and the random test text render identically on server and client.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-brutal-grid" />;
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
+    <div className="min-h-screen bg-brutal-grid">
       <Header onSettingsClick={() => setShowSettings(true)} onStatsClick={() => setShowStats(true)} />
 
       <main className="max-w-7xl mx-auto">
@@ -100,12 +111,13 @@ export default function Home() {
             {/* Instructions/Mode Info */}
             <div className="flex items-center justify-center gap-4 mt-8 px-4">
               <div className="text-center">
-                <div className="text-sm font-semibold text-gray-400 mb-2">
-                  Test Mode: <span className="text-cyan-400 capitalize">{testMode}</span>
+                <div className="inline-block font-mono text-xs uppercase tracking-widest bg-white border-2 border-black brutal-shadow px-4 py-1 mb-2">
+                  <span className="text-black/60">TEST MODE:</span>{' '}
+                  <span className="font-bold capitalize text-black">{testMode}</span>
                 </div>
                 {testMode === 'timed' && (
-                  <div className="text-xs text-gray-500">
-                    {timerDuration} second test • Press ESC to restart
+                  <div className="font-mono text-xs uppercase tracking-widest text-black/70">
+                    ⏱ {timerDuration} second test • press esc to restart
                   </div>
                 )}
               </div>
@@ -140,10 +152,12 @@ export default function Home() {
 
             {/* Footer Info */}
             <div className="text-center mt-12 px-4 pb-8">
-              <div className="text-xs text-gray-500 space-y-1">
-                <p>Press ESC to restart • Click settings to customize</p>
-                <p className="text-gray-600">
-                  {testComplete ? 'Test complete!' : isActive ? 'Test in progress...' : 'Click above to start'}
+              <div className="font-mono text-xs uppercase tracking-widest space-y-1">
+                <p className="bg-white border-2 border-black brutal-shadow inline-block px-3 py-1">
+                  [ESC] restart • [⚙] customize
+                </p>
+                <p className="mt-2 text-black/70">
+                  {testComplete ? 'TEST COMPLETE' : isActive ? 'TEST IN PROGRESS...' : 'CLICK ABOVE TO START'}
                 </p>
               </div>
             </div>

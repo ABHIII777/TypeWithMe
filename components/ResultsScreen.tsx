@@ -31,93 +31,97 @@ export function ResultsScreen({
   const grade = getGrade(metrics.wpm);
   const recentResults = previousResults.slice(0, 5);
   const chartData = recentResults.reverse().map((r, i) => ({
-    test: `Test ${i + 1}`,
+    test: `T${i + 1}`,
     wpm: r.wpm,
     accuracy: r.accuracy,
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 py-16 px-4">
-      {/* Grade Circle */}
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
-          <span className="text-6xl font-bold text-white">{grade}</span>
+    <div className="flex flex-col items-center justify-center gap-10 py-16 px-4">
+      {/* Grade Sticker */}
+      <div className="flex flex-col items-center gap-6">
+        <div className="w-36 h-36 bg-yellow-300 border-[3px] border-black shadow-[6px_6px_0_0_#000] flex items-center justify-center -rotate-2 hover:rotate-0 transition-transform">
+          <span className="font-mono text-7xl font-bold text-black">{grade}</span>
         </div>
-        <h2 className="text-2xl font-bold text-gray-100">Test Complete!</h2>
+        <h2 className="text-3xl font-bold uppercase tracking-tight">
+          Test Complete<span className="text-red-600">!</span>
+        </h2>
       </div>
 
       {/* Main Stats */}
-      <div className="grid grid-cols-3 gap-8 max-w-md">
-        <div className="text-center">
-          <div className="text-4xl font-bold text-green-400">{metrics.wpm.toFixed(2)}</div>
-          <div className="text-sm text-gray-400 mt-2">WPM</div>
+      <div className="grid grid-cols-3 gap-6 max-w-md">
+        <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
+          <div className="font-mono text-4xl font-bold text-black">{metrics.wpm.toFixed(2)}</div>
+          <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">WPM</div>
         </div>
-        <div className="text-center">
-          <div className="text-4xl font-bold text-blue-400">{metrics.accuracy.toFixed(1)}%</div>
-          <div className="text-sm text-gray-400 mt-2">Accuracy</div>
+        <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
+          <div className="font-mono text-4xl font-bold text-black">{metrics.accuracy.toFixed(1)}%</div>
+          <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">Accuracy</div>
         </div>
-        <div className="text-center">
-          <div className="text-4xl font-bold text-yellow-400">{metrics.rawWpm}</div>
-          <div className="text-sm text-gray-400 mt-2">Raw WPM</div>
+        <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
+          <div className="font-mono text-4xl font-bold text-black">{metrics.rawWpm}</div>
+          <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">Raw WPM</div>
         </div>
       </div>
 
       {/* Detailed Stats */}
       <div className="grid grid-cols-2 gap-6 max-w-md w-full text-sm">
-        <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-          <div className="text-gray-400">Correct</div>
-          <div className="text-lg font-bold text-green-400">{metrics.correctChars}</div>
+        <div className="bg-white border-2 border-black brutal-shadow p-4">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Correct</div>
+          <div className="mt-1 font-mono text-lg font-bold">{metrics.correctChars}</div>
         </div>
-        <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-          <div className="text-gray-400">Incorrect</div>
-          <div className="text-lg font-bold text-red-400">{metrics.incorrectChars}</div>
+        <div className="bg-white border-2 border-black brutal-shadow p-4">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Incorrect</div>
+          <div className="mt-1 font-mono text-lg font-bold text-red-600">{metrics.incorrectChars}</div>
         </div>
-        <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-          <div className="text-gray-400">Total Chars</div>
-          <div className="text-lg font-bold text-cyan-400">{metrics.totalChars}</div>
+        <div className="bg-white border-2 border-black brutal-shadow p-4">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Total Chars</div>
+          <div className="mt-1 font-mono text-lg font-bold">{metrics.totalChars}</div>
         </div>
-        <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-          <div className="text-gray-400">Mode</div>
-          <div className="text-lg font-bold text-purple-400 capitalize">{testMode}</div>
+        <div className="bg-white border-2 border-black brutal-shadow p-4">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Mode</div>
+          <div className="mt-1 font-mono text-lg font-bold capitalize">{testMode}</div>
         </div>
       </div>
 
       {/* Chart */}
       {chartData.length > 0 && (
-        <div className="w-full max-w-2xl bg-gray-800/50 rounded-lg border border-gray-700 p-6 mt-4">
-          <h3 className="text-lg font-bold text-gray-100 mb-4">Recent Tests</h3>
+        <div className="w-full max-w-2xl border-2 border-black brutal-shadow bg-white p-6">
+          <h3 className="text-lg font-bold uppercase mb-4">Recent Tests</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey="test" stroke="#9ca3af" />
-              <YAxis stroke="#9ca3af" />
+              <CartesianGrid strokeDasharray="4 4" stroke="#000" />
+              <XAxis dataKey="test" stroke="#000" tick={{ fontSize: 12, fontFamily: 'monospace' }} />
+              <YAxis stroke="#000" tick={{ fontSize: 12, fontFamily: 'monospace' }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1a1a1a',
-                  border: '1px solid #4b5563',
-                  borderRadius: '0.5rem',
+                  backgroundColor: '#fff',
+                  border: '2px solid #000',
+                  borderRadius: 0,
+                  boxShadow: '3px 3px 0 0 #000',
                 }}
-                labelStyle={{ color: '#e5e7eb' }}
+                labelStyle={{ color: '#000', fontFamily: 'monospace' }}
               />
-              <Legend />
-              <Bar dataKey="wpm" fill="#10b981" />
-              <Bar dataKey="accuracy" fill="#06b6d4" />
+              <Legend wrapperStyle={{ fontFamily: 'monospace', fontSize: 12 }} />
+              <Bar dataKey="wpm" fill="#000" />
+              <Bar dataKey="accuracy" fill="#ffd400" stroke="#000" strokeWidth={1.5} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex gap-6 mt-4">
         <Button
           onClick={onRetry}
-          className="px-8 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded font-semibold"
+          className="px-8 py-2 bg-yellow-300 hover:bg-yellow-200"
         >
           Try Again
         </Button>
         <Button
           onClick={() => window.location.href = '/'}
-          className="px-8 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded font-semibold"
+          variant="outline"
+          className="px-8 py-2 bg-white"
         >
           Home
         </Button>

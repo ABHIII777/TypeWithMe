@@ -45,70 +45,73 @@ export function StatsModal({ onClose }: StatsModalProps) {
     return breakdown;
   }, [results]);
 
+  const statTile = 'bg-white border-2 border-black brutal-shadow p-4';
+
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-md w-full max-h-96 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white border-[3px] border-black shadow-[8px_8px_0_0_#000] max-w-md w-full max-h-[90vh] overflow-y-auto animate-pop">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-gray-100">Your Statistics</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-black bg-cyan-300 sticky top-0 z-10">
+          <h2 className="text-xl font-bold uppercase tracking-tight">// Statistics</h2>
           <Button
             onClick={onClose}
             variant="ghost"
-            size="sm"
-            className="text-gray-400 hover:text-gray-100"
+            size="icon-sm"
+            className="border-2 border-black bg-white text-black hover:bg-red-500 hover:text-white brutal-shadow"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </Button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-8">
           {results.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-400">No tests completed yet. Complete your first test!</p>
+            <div className="text-center py-10 border-2 border-dashed border-black">
+              <p className="font-mono text-sm uppercase tracking-widest">
+                No tests completed yet.
+              </p>
+              <p className="mt-2 font-mono text-xs uppercase tracking-widest text-black/60">
+                Go type something!
+              </p>
             </div>
           ) : (
             <>
               {/* Overall Stats */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-                  <div className="text-xs text-gray-400">Total Tests</div>
-                  <div className="text-2xl font-bold text-cyan-400 mt-1">
-                    {stats.totalTests}
-                  </div>
+                <div className={statTile}>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Total Tests</div>
+                  <div className="mt-1 font-mono text-2xl font-bold">{stats.totalTests}</div>
                 </div>
-                <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-                  <div className="text-xs text-gray-400">Avg WPM</div>
-                  <div className="text-2xl font-bold text-green-400 mt-1">
-                    {stats.avgWpm}
-                  </div>
+                <div className={statTile}>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Avg WPM</div>
+                  <div className="mt-1 font-mono text-2xl font-bold">{stats.avgWpm}</div>
                 </div>
-                <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-                  <div className="text-xs text-gray-400">Best WPM</div>
-                  <div className="text-2xl font-bold text-yellow-400 mt-1">
-                    {stats.bestWpm}
-                  </div>
+                <div className={statTile}>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Best WPM</div>
+                  <div className="mt-1 font-mono text-2xl font-bold">{stats.bestWpm}</div>
                 </div>
-                <div className="bg-gray-800/50 rounded p-4 border border-gray-700">
-                  <div className="text-xs text-gray-400">Avg Accuracy</div>
-                  <div className="text-2xl font-bold text-blue-400 mt-1">
-                    {stats.avgAccuracy}%
-                  </div>
+                <div className={statTile}>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Avg Accuracy</div>
+                  <div className="mt-1 font-mono text-2xl font-bold">{stats.avgAccuracy}%</div>
                 </div>
               </div>
 
               {/* Mode Breakdown */}
               {Object.keys(modeBreakdown).length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-300 mb-3">By Mode</h3>
+                  <h3 className="font-mono text-xs uppercase tracking-widest text-black mb-3 border-b-2 border-black pb-1">
+                    By Mode
+                  </h3>
                   <div className="space-y-2">
                     {Object.entries(modeBreakdown).map(([mode, count]) => (
                       <div
                         key={mode}
-                        className="flex items-center justify-between text-sm bg-gray-800/50 rounded p-3"
+                        className="flex items-center justify-between border-2 border-black bg-white px-3 py-2"
                       >
-                        <span className="text-gray-300 capitalize">{mode}</span>
-                        <span className="text-cyan-400 font-semibold">{count}</span>
+                        <span className="font-mono text-sm uppercase tracking-wide">{mode}</span>
+                        <span className="font-mono text-sm font-bold bg-yellow-300 border-2 border-black px-2">
+                          {count}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -117,22 +120,24 @@ export function StatsModal({ onClose }: StatsModalProps) {
 
               {/* Recent Tests */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-300 mb-3">Recent Tests</h3>
-                <div className="space-y-2 max-h-40 overflow-y-auto">
-                  {results.slice(0, 5).map((result, idx) => (
+                <h3 className="font-mono text-xs uppercase tracking-widest text-black mb-3 border-b-2 border-black pb-1">
+                  Recent Tests
+                </h3>
+                <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                  {results.slice(0, 5).map((result) => (
                     <div
                       key={result.id}
-                      className="flex items-center justify-between text-sm bg-gray-800/50 rounded p-3"
+                      className="flex items-center justify-between border-2 border-black bg-white px-3 py-2"
                     >
                       <div>
-                        <span className="text-gray-400 capitalize">{result.mode}</span>
-                        <span className="text-gray-600 ml-2 text-xs">
+                        <span className="font-mono text-sm uppercase">{result.mode}</span>
+                        <span className="font-mono text-xs text-black/60 ml-2">
                           {new Date(result.timestamp).toLocaleDateString()}
                         </span>
                       </div>
                       <div className="flex gap-2">
-                        <span className="text-green-400 font-semibold">{result.wpm.toFixed(0)} WPM</span>
-                        <span className="text-blue-400 font-semibold">{result.accuracy.toFixed(0)}%</span>
+                        <span className="font-mono text-sm font-bold">{result.wpm.toFixed(0)} WPM</span>
+                        <span className="font-mono text-sm font-bold">{result.accuracy.toFixed(0)}%</span>
                       </div>
                     </div>
                   ))}
@@ -143,7 +148,7 @@ export function StatsModal({ onClose }: StatsModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-700 p-6 flex gap-3">
+        <div className="border-t-[3px] border-black p-6 flex gap-3">
           {results.length > 0 && (
             <Button
               onClick={() => {
@@ -151,8 +156,8 @@ export function StatsModal({ onClose }: StatsModalProps) {
                   clearResults();
                 }
               }}
-              variant="ghost"
-              className="flex-1 text-red-400 hover:bg-red-500/10"
+              variant="outline"
+              className="flex-1 bg-red-500 text-white hover:bg-red-400 border-black shadow-[4px_4px_0_0_#000]"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Clear
@@ -160,7 +165,7 @@ export function StatsModal({ onClose }: StatsModalProps) {
           )}
           <Button
             onClick={onClose}
-            className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white rounded font-semibold"
+            className="flex-1 bg-black text-white hover:bg-black/80 shadow-[4px_4px_0_0_#ffd400]"
           >
             Close
           </Button>

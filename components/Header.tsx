@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Settings, BarChart3 } from 'lucide-react';
-import { useTypingStore } from '@/lib/typing-store';
 
 interface HeaderProps {
   onSettingsClick: () => void;
@@ -10,37 +9,41 @@ interface HeaderProps {
 }
 
 export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
-  const { theme } = useTypingStore();
-
   return (
-    <header className="border-b border-gray-700 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="border-b-[3px] border-black bg-[#c8ff00] sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded flex items-center justify-center">
-            <span className="text-white font-bold text-sm">T</span>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-black flex items-center justify-center shadow-[3px_3px_0_0_#fff]">
+            <span className="text-yellow-300 font-bold text-xl leading-none">T</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-100">Typemaster</h1>
+          <div className="leading-none">
+            <h1 className="text-2xl font-bold text-black tracking-tight uppercase">
+              Typemaster
+            </h1>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-black/70">
+              KEYBOARD ACCELERATOR
+            </p>
+          </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Button
             onClick={onStatsClick}
-            variant="ghost"
+            variant="outline"
             size="sm"
-            className="text-gray-400 hover:text-gray-100"
+            className="bg-white"
           >
-            <BarChart3 className="w-5 h-5 mr-2" />
+            <BarChart3 className="w-4 h-4 mr-1" />
             Stats
           </Button>
           <Button
             onClick={onSettingsClick}
-            variant="ghost"
+            variant="secondary"
             size="sm"
-            className="text-gray-400 hover:text-gray-100"
           >
-            <Settings className="w-5 h-5 mr-2" />
+            <Settings className="w-4 h-4 mr-1" />
             Settings
           </Button>
         </div>
