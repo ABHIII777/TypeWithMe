@@ -50,7 +50,7 @@ export function StatsModal({ onClose }: StatsModalProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white border-[3px] border-black shadow-[8px_8px_0_0_#000] max-w-md w-full max-h-[90vh] overflow-y-auto animate-pop">
-        {/* Header */}
+
         <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-black bg-cyan-300 sticky top-0 z-10">
           <h2 className="text-xl font-bold uppercase tracking-tight">// Statistics</h2>
           <Button
@@ -63,7 +63,6 @@ export function StatsModal({ onClose }: StatsModalProps) {
           </Button>
         </div>
 
-        {/* Content */}
         <div className="p-6 space-y-8">
           {results.length === 0 ? (
             <div className="text-center py-10 border-2 border-dashed border-black">
@@ -76,7 +75,7 @@ export function StatsModal({ onClose }: StatsModalProps) {
             </div>
           ) : (
             <>
-              {/* Overall Stats */}
+
               <div className="grid grid-cols-2 gap-4">
                 <div className={statTile}>
                   <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Total Tests</div>
@@ -96,7 +95,6 @@ export function StatsModal({ onClose }: StatsModalProps) {
                 </div>
               </div>
 
-              {/* Mode Breakdown */}
               {Object.keys(modeBreakdown).length > 0 && (
                 <div>
                   <h3 className="font-mono text-xs uppercase tracking-widest text-black mb-3 border-b-2 border-black pb-1">
@@ -118,7 +116,6 @@ export function StatsModal({ onClose }: StatsModalProps) {
                 </div>
               )}
 
-              {/* Recent Tests */}
               <div>
                 <h3 className="font-mono text-xs uppercase tracking-widest text-black mb-3 border-b-2 border-black pb-1">
                   Recent Tests
@@ -147,7 +144,6 @@ export function StatsModal({ onClose }: StatsModalProps) {
           )}
         </div>
 
-        {/* Footer */}
         <div className="border-t-[3px] border-black p-6 flex gap-3">
           {results.length > 0 && (
             <Button

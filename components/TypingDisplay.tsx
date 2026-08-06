@@ -25,7 +25,7 @@ export function TypingDisplay({
 }: TypingDisplayProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-16 px-4">
-      {/* Metrics Bar */}
+
       <div className="flex gap-6 text-center">
         {STAT_TILES.map((tile) => (
           <div
@@ -42,17 +42,16 @@ export function TypingDisplay({
         ))}
       </div>
 
-      {/* Typing Area */}
       <div className="w-full max-w-3xl">
         <div className="border-2 border-black brutal-shadow bg-white">
-          {/* Box header strip */}
+
           <div className="flex items-center justify-between border-b-2 border-black px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest bg-yellow-300">
             <span>typing.exe</span>
             <span className="text-black/70">esc = restart</span>
           </div>
 
           <div className="px-6 py-8 min-h-32">
-            {/* Text Display with Character Highlighting */}
+
             <div className="flex flex-wrap gap-1 font-mono text-xl leading-relaxed">
               {text.split('').map((char, idx) => {
                 const inputChar = input[idx];
@@ -80,7 +79,6 @@ export function TypingDisplay({
           </div>
         </div>
 
-        {/* Instructions */}
         {!isActive && input.length === 0 && (
           <div className="text-center mt-6 font-mono text-sm uppercase tracking-widest text-black">
             <span className="inline-block bg-yellow-300 border-2 border-black px-3 py-1 brutal-shadow">

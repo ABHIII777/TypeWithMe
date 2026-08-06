@@ -38,7 +38,7 @@ export function ResultsScreen({
 
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-16 px-4">
-      {/* Grade Sticker */}
+
       <div className="flex flex-col items-center gap-6">
         <div className="w-36 h-36 bg-yellow-300 border-[3px] border-black shadow-[6px_6px_0_0_#000] flex items-center justify-center -rotate-2 hover:rotate-0 transition-transform">
           <span className="font-mono text-7xl font-bold text-black">{grade}</span>
@@ -48,7 +48,6 @@ export function ResultsScreen({
         </h2>
       </div>
 
-      {/* Main Stats */}
       <div className="grid grid-cols-3 gap-6 max-w-md">
         <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
           <div className="font-mono text-4xl font-bold text-black">{metrics.wpm.toFixed(2)}</div>
@@ -64,7 +63,6 @@ export function ResultsScreen({
         </div>
       </div>
 
-      {/* Detailed Stats */}
       <div className="grid grid-cols-2 gap-6 max-w-md w-full text-sm">
         <div className="bg-white border-2 border-black brutal-shadow p-4">
           <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Correct</div>
@@ -84,7 +82,6 @@ export function ResultsScreen({
         </div>
       </div>
 
-      {/* Chart */}
       {chartData.length > 0 && (
         <div className="w-full max-w-2xl border-2 border-black brutal-shadow bg-white p-6">
           <h3 className="text-lg font-bold uppercase mb-4">Recent Tests</h3>
@@ -110,7 +107,6 @@ export function ResultsScreen({
         </div>
       )}
 
-      {/* Action Buttons */}
       <div className="flex gap-6 mt-4">
         <Button
           onClick={onRetry}

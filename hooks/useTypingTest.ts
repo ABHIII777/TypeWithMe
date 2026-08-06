@@ -29,14 +29,12 @@ export const useTypingTest = (
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Start test on first input
   useEffect(() => {
     if (input.length === 1 && !isActive) {
       setIsActive(true);
     }
   }, [input, isActive]);
 
-  // Timer logic
   useEffect(() => {
     if (!isActive) return;
 
@@ -55,7 +53,6 @@ export const useTypingTest = (
     };
   }, [isActive]);
 
-  // Calculate metrics
   useEffect(() => {
     if (!isActive && input.length === 0) return;
 
@@ -89,7 +86,6 @@ export const useTypingTest = (
     });
   }, [input, text, duration, timeLeft, isActive]);
 
-  // Handle test completion
   useEffect(() => {
     if (!isActive && input.length > 0 && timeLeft === 0) {
       onComplete?.(metrics);
