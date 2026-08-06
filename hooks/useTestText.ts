@@ -48,7 +48,7 @@ const generateText = (mode: 'words' | 'quotes', wordCount: number): string => {
 };
 
 export const useTestText = (mode: 'words' | 'quotes', wordCount: number = 50) => {
-  const [text, setText] = useState(() => generateText(mode, wordCount));
+  const [text, setText] = useState('');
 
   useEffect(() => {
     setText(generateText(mode, wordCount));

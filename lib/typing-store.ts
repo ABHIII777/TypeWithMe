@@ -16,10 +16,6 @@ export interface TestResult {
 }
 
 interface TypingStore {
-  // Theme
-  theme: 'dark' | 'light' | 'neon' | 'terminal';
-  setTheme: (theme: 'dark' | 'light' | 'neon' | 'terminal') => void;
-
   // Sound
   soundEnabled: boolean;
   setSoundEnabled: (enabled: boolean) => void;
@@ -41,9 +37,6 @@ interface TypingStore {
 export const useTypingStore = create<TypingStore>()(
   persist(
     (set) => ({
-      theme: 'dark',
-      setTheme: (theme) => set({ theme }),
-
       soundEnabled: true,
       setSoundEnabled: (enabled) => set({ soundEnabled: enabled }),
 

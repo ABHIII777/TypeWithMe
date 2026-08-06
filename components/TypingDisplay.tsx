@@ -10,6 +10,12 @@ interface TypingDisplayProps {
   metrics: TypingMetrics;
 }
 
+const STAT_TILES = [
+  { label: 'WPM', value: (m: TypingMetrics) => m.wpm.toFixed(2), color: 'text-black' },
+  { label: 'ACC', value: (m: TypingMetrics) => `${m.accuracy.toFixed(1)}%`, color: 'text-black' },
+  { label: 'TIME', value: (m: TypingMetrics, timeLeft: number) => `${timeLeft}s`, color: 'text-black' },
+] as const;
+
 export function TypingDisplay({
   text,
   input,
@@ -18,51 +24,68 @@ export function TypingDisplay({
   metrics,
 }: TypingDisplayProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 py-16 px-4">
+    <div className="flex flex-col items-center justify-center gap-10 py-16 px-4">
       {/* Metrics Bar */}
-      <div className="flex gap-8 text-center">
-        <div className="flex flex-col items-center">
-          <div className="text-3xl font-bold text-cyan-400">{metrics.wpm.toFixed(2)}</div>
-          <div className="text-sm text-gray-400">WPM</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="text-3xl font-bold text-cyan-400">{metrics.accuracy.toFixed(1)}%</div>
-          <div className="text-sm text-gray-400">Accuracy</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="text-3xl font-bold text-cyan-400">{timeLeft}s</div>
-          <div className="text-sm text-gray-400">Time</div>
-        </div>
+      <div className="flex gap-6 text-center">
+        {STAT_TILES.map((tile) => (
+          <div
+            key={tile.label}
+            className={`bg-white px-6 py-3 border-2 border-black brutal-shadow ${tile.color}`}
+          >
+            <div className="font-mono text-3xl leading-none tracking-tight">
+              {tile.value(metrics, timeLeft)}
+            </div>
+            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">
+              {tile.label}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Typing Area */}
       <div className="w-full max-w-3xl">
-        <div className="relative rounded-lg bg-gray-900/50 border border-gray-700 p-8 min-h-32 focus-within:border-cyan-400/50 transition-colors">
-          {/* Text Display with Character Highlighting */}
-          <div className="flex flex-wrap gap-1 text-xl font-mono leading-relaxed">
-            {text.split('').map((char, idx) => {
-              const inputChar = input[idx];
-              let charClass = 'text-gray-400';
+        <div className="border-2 border-black brutal-shadow bg-white">
+          {/* Box header strip */}
+          <div className="flex items-center justify-between border-b-2 border-black px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest bg-yellow-300">
+            <span>typing.exe</span>
+            <span className="text-black/70">esc = restart</span>
+          </div>
 
-              if (inputChar !== undefined) {
-                charClass = inputChar === char ? 'text-green-400' : 'text-red-500';
-              } else if (idx === input.length && isActive) {
-                charClass = 'text-cyan-400 animate-blink';
-              }
+          <div className="px-6 py-8 min-h-32">
+            {/* Text Display with Character Highlighting */}
+            <div className="flex flex-wrap gap-1 font-mono text-xl leading-relaxed">
+              {text.split('').map((char, idx) => {
+                const inputChar = input[idx];
+                let charClass = 'text-black/35';
 
-              return (
-                <span key={idx} className={`${charClass} transition-colors`}>
-                  {char === ' ' ? '·' : char}
-                </span>
-              );
-            })}
+                if (inputChar !== undefined) {
+                  charClass =
+                    inputChar === char
+                      ? 'text-black bg-green-100'
+                      : 'text-white bg-red-600';
+                } else if (idx === input.length && isActive) {
+                  charClass = 'bg-yellow-300 text-black animate-blink';
+                }
+
+                return (
+                  <span
+                    key={idx}
+                    className={`${charClass} transition-colors`}
+                  >
+                    {char === ' ' ? '\u00A0' : char}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Instructions */}
         {!isActive && input.length === 0 && (
-          <div className="text-center mt-8 text-gray-500 text-sm">
-            <p>Click above or start typing to begin</p>
+          <div className="text-center mt-6 font-mono text-sm uppercase tracking-widest text-black">
+            <span className="inline-block bg-yellow-300 border-2 border-black px-3 py-1 brutal-shadow">
+              Start typing to begin
+            </span>
           </div>
         )}
       </div>
