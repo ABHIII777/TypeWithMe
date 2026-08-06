@@ -16,16 +16,13 @@ export interface TestResult {
 }
 
 interface TypingStore {
-  // Sound
   soundEnabled: boolean;
   setSoundEnabled: (enabled: boolean) => void;
 
-  // Stats
   results: TestResult[];
   addResult: (result: TestResult) => void;
   clearResults: () => void;
   
-  // Settings
   testMode: TestMode;
   setTestMode: (mode: TestMode) => void;
   timerDuration: number;
@@ -43,7 +40,7 @@ export const useTypingStore = create<TypingStore>()(
       results: [],
       addResult: (result) =>
         set((state) => ({
-          results: [result, ...state.results].slice(0, 100), // Keep last 100 results
+          results: [result, ...state.results].slice(0, 100),
         })),
       clearResults: () => set({ results: [] }),
 

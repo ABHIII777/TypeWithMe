@@ -34,7 +34,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white border-[3px] border-black shadow-[8px_8px_0_0_#000] max-w-md w-full max-h-[90vh] overflow-y-auto animate-pop">
-        {/* Header */}
+
         <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-black bg-yellow-300 sticky top-0 z-10">
           <h2 className="text-xl font-bold uppercase tracking-tight">⚙ Settings</h2>
           <Button
@@ -47,9 +47,8 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
           </Button>
         </div>
 
-        {/* Content */}
         <div className="p-6 space-y-8">
-          {/* Test Mode */}
+
           <div>
             <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
               Test Mode
@@ -67,7 +66,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
             </div>
           </div>
 
-          {/* Duration */}
           {testMode === 'timed' && (
             <div>
               <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
@@ -87,7 +85,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
             </div>
           )}
 
-          {/* Word Count */}
           {testMode === 'words' && (
             <div>
               <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
@@ -107,7 +104,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
             </div>
           )}
 
-          {/* Sound Toggle */}
           <div className="flex items-center justify-between py-4 border-y-[3px] border-black">
             <label className="font-mono text-xs uppercase tracking-widest text-black">
               Sound Effects
@@ -139,7 +135,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="border-t-[3px] border-black p-6">
           <Button
             onClick={onClose}

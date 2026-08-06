@@ -33,7 +33,7 @@ export default function Home() {
     wordCount
   );
 
-  const effectiveDuration = testMode === 'timed' ? timerDuration : 600; // 10 minutes for non-timed modes
+  const effectiveDuration = testMode === 'timed' ? timerDuration : 600;
 
   const {
     input,
@@ -59,7 +59,6 @@ export default function Home() {
     });
   });
 
-  // Handle input changes with sound feedback
   const handleInput = (value: string) => {
     const prevInput = input;
     setInput(value);
@@ -78,14 +77,11 @@ export default function Home() {
     setLastInput(input);
   };
 
-  // Regenerate text on mode change
   useEffect(() => {
     regenerate();
     reset();
   }, [testMode]);
 
-  // Wait until hydration is done so that the persisted store values
-  // and the random test text render identically on server and client.
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -108,7 +104,7 @@ export default function Home() {
           />
         ) : (
           <>
-            {/* Instructions/Mode Info */}
+
             <div className="flex items-center justify-center gap-4 mt-8 px-4">
               <div className="text-center">
                 <div className="inline-block font-mono text-xs uppercase tracking-widest bg-white border-2 border-black brutal-shadow px-4 py-1 mb-2">
@@ -123,7 +119,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Typing Area */}
             {text && (
               <>
                 <input
@@ -150,7 +145,6 @@ export default function Home() {
               </>
             )}
 
-            {/* Footer Info */}
             <div className="text-center mt-12 px-4 pb-8">
               <div className="font-mono text-xs uppercase tracking-widest space-y-1">
                 <p className="bg-white border-2 border-black brutal-shadow inline-block px-3 py-1">
@@ -165,7 +159,6 @@ export default function Home() {
         )}
       </main>
 
-      {/* Modals */}
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
       {showStats && <StatsModal onClose={() => setShowStats(false)} />}
     </div>
