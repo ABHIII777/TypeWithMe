@@ -1,6 +1,7 @@
 'use client';
 
 import { TypingMetrics } from '@/hooks/useTypingTest';
+import { CodeLine } from '@/hooks/useTestText';
 
 interface TypingDisplayProps {
   text: string;
@@ -8,6 +9,7 @@ interface TypingDisplayProps {
   isActive: boolean;
   timeLeft: number;
   metrics: TypingMetrics;
+  codeLines?: CodeLine[];
 }
 
 const STAT_TILES = [
@@ -22,7 +24,37 @@ export function TypingDisplay({
   isActive,
   timeLeft,
   metrics,
+  codeLines,
 }: TypingDisplayProps) {
+  const offsets: number[] = [];
+  if (codeLines) {
+    let acc = 0;
+    for (const line of codeLines) {
+      offsets.push(acc);
+      acc += line.content.length;
+    }
+  }
+
+  const renderChar = (char: string, idx: number, isCursor: boolean) => {
+    const inputChar = input[idx];
+    let charClass = 'text-black/35';
+
+    if (inputChar !== undefined) {
+      charClass =
+        inputChar === char
+          ? 'text-black bg-green-100'
+          : 'text-white bg-red-600';
+    } else if (isCursor && isActive) {
+      charClass = 'bg-yellow-300 text-black animate-blink';
+    }
+
+    return (
+      <span key={idx} className={`${charClass} transition-colors`}>
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    );
+  };
+
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-16 px-4">
 
@@ -46,36 +78,29 @@ export function TypingDisplay({
         <div className="border-2 border-black brutal-shadow bg-white">
 
           <div className="flex items-center justify-between border-b-2 border-black px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest bg-yellow-300">
-            <span>typing.exe</span>
+            <span>{codeLines ? 'code.exe' : 'typing.exe'}</span>
             <span className="text-black/70">esc = restart</span>
           </div>
 
           <div className="px-6 py-8 min-h-32">
-
-            <div className="flex flex-wrap gap-1 font-mono text-xl leading-relaxed">
-              {text.split('').map((char, idx) => {
-                const inputChar = input[idx];
-                let charClass = 'text-black/35';
-
-                if (inputChar !== undefined) {
-                  charClass =
-                    inputChar === char
-                      ? 'text-black bg-green-100'
-                      : 'text-white bg-red-600';
-                } else if (idx === input.length && isActive) {
-                  charClass = 'bg-yellow-300 text-black animate-blink';
-                }
-
-                return (
-                  <span
-                    key={idx}
-                    className={`${charClass} transition-colors`}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
+            {codeLines ? (
+              <div className="flex flex-wrap font-mono text-lg leading-relaxed whitespace-pre overflow-x-auto">
+                {codeLines.map((line, li) => (
+                  <span key={li} className="flex">
+                    <span className="select-none text-black/30 whitespace-pre">
+                      {line.indent.replace(/ /g, '\u00A0')}
+                    </span>
+                    {line.content.split('').map((char, j) =>
+                      renderChar(char, offsets[li] + j, offsets[li] + j === input.length)
+                    )}
                   </span>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-1 font-mono text-xl leading-relaxed">
+                {text.split('').map((char, idx) => renderChar(char, idx, idx === input.length))}
+              </div>
+            )}
           </div>
         </div>
 

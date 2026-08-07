@@ -1,62 +1,73 @@
 import { useState, useEffect } from 'react';
+import texts from '@/data/texts.json';
 
-const COMMON_WORDS = [
-  'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i',
-  'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
-  'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
-  'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
-  'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
-  'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take',
-  'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other',
-  'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also',
-  'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way',
-  'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us',
-  'is', 'was', 'are', 'been', 'being', 'has', 'had', 'does', 'did', 'doing',
-  'should', 'am', 'such', 'very', 'too', 'more', 'much', 'through', 'before', 'under',
-  'where', 'should', 'right', 'those', 'may', 'might', 'must', 'can', 'yours', 'itself',
-];
+export interface CodeLine {
+  indent: string;
+  content: string;
+}
 
-const QUOTES = [
-  'The quick brown fox jumps over the lazy dog.',
-  'To be or not to be, that is the question.',
-  'All that glitters is not gold.',
-  'It was the best of times, it was the worst of times.',
-  'The early bird catches the worm.',
-  'Actions speak louder than words.',
-  'Where there is a will, there is a way.',
-  'Beauty is in the eye of the beholder.',
-  'The pen is mightier than the sword.',
-  'Knowledge is power.',
-  'Practice makes perfect.',
-  'Better late than never.',
-  'Every cloud has a silver lining.',
-  'The ball is in your court.',
-  'Break a leg.',
-];
-
-const generateText = (mode: 'words' | 'quotes', wordCount: number): string => {
-  if (mode === 'quotes') {
-    const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-    return randomQuote;
-  } else {
-    const words: string[] = [];
-    for (let i = 0; i < wordCount; i++) {
-      words.push(COMMON_WORDS[Math.floor(Math.random() * COMMON_WORDS.length)]);
-    }
-    return words.join(' ');
-  }
+type GeneratedText = {
+  text: string;
+  codeLines?: CodeLine[];
 };
 
-export const useTestText = (mode: 'words' | 'quotes', wordCount: number = 50) => {
+const generateText = (
+  mode: 'words' | 'quotes' | 'code',
+  wordCount: number
+): GeneratedText => {
+  if (mode === 'quotes') {
+    const buckets = [texts.quotes.small, texts.quotes.medium, texts.quotes.large];
+    const bucket = buckets[Math.floor(Math.random() * buckets.length)];
+    const randomQuote = bucket[Math.floor(Math.random() * bucket.length)];
+    return { text: randomQuote.text };
+  }
+
+  if (mode === 'code') {
+    const buckets = [texts.code.small, texts.code.medium, texts.code.large];
+    const bucket = buckets[Math.floor(Math.random() * buckets.length)];
+    const raw = bucket[Math.floor(Math.random() * bucket.length)];
+
+    const codeLines: CodeLine[] = raw.split('\n').map((line) => {
+      const indentMatch = line.match(/^\s*/);
+      return {
+        indent: indentMatch ? indentMatch[0] : '',
+        content: line.trim(),
+      };
+    });
+
+    return {
+      text: codeLines.map((line) => line.content).join(''),
+      codeLines,
+    };
+  }
+
+  const words: string[] = [];
+  for (let i = 0; i < wordCount; i++) {
+    words.push(
+      texts.words.common[Math.floor(Math.random() * texts.words.common.length)]
+    );
+  }
+  return { text: words.join(' ') };
+};
+
+export const useTestText = (
+  mode: 'words' | 'quotes' | 'code',
+  wordCount: number = 50
+) => {
   const [text, setText] = useState('');
+  const [codeLines, setCodeLines] = useState<CodeLine[] | undefined>(undefined);
 
   useEffect(() => {
-    setText(generateText(mode, wordCount));
+    const generated = generateText(mode, wordCount);
+    setText(generated.text);
+    setCodeLines(generated.codeLines);
   }, [mode, wordCount]);
 
   const regenerate = () => {
-    setText(generateText(mode, wordCount));
+    const generated = generateText(mode, wordCount);
+    setText(generated.text);
+    setCodeLines(generated.codeLines);
   };
 
-  return { text, regenerate };
+  return { text, regenerate, codeLines };
 };

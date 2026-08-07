@@ -20,7 +20,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
     setWordCount,
   } = useTypingStore();
 
-  const modes: TestMode[] = ['timed', 'words', 'quotes', 'survival'];
+  const modes: TestMode[] = ['timed', 'words', 'quotes', 'code'];
   const durations = [15, 30, 60, 120];
   const wordCounts = [25, 50, 75, 100];
 
