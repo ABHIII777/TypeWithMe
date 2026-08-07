@@ -84,16 +84,16 @@ export function TypingDisplay({
 
           <div className="px-6 py-8 min-h-32">
             {codeLines ? (
-              <div className="flex flex-wrap font-mono text-lg leading-relaxed whitespace-pre overflow-x-auto">
+              <div className="flex flex-col font-mono text-lg leading-relaxed overflow-x-auto">
                 {codeLines.map((line, li) => (
-                  <span key={li} className="flex">
-                    <span className="select-none text-black/30 whitespace-pre">
+                  <div key={li} className="flex whitespace-pre">
+                    <span className="select-none text-black/50 whitespace-pre">
                       {line.indent.replace(/ /g, '\u00A0')}
                     </span>
                     {line.content.split('').map((char, j) =>
                       renderChar(char, offsets[li] + j, offsets[li] + j === input.length)
                     )}
-                  </span>
+                  </div>
                 ))}
               </div>
             ) : (
