@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { Settings, BarChart3 } from 'lucide-react';
 
 interface HeaderProps {
@@ -13,7 +14,7 @@ export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
     <header className="border-b-[3px] border-black bg-[#c8ff00] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="w-9 h-9 bg-black flex items-center justify-center shadow-[3px_3px_0_0_#fff]">
             <span className="text-yellow-300 font-bold text-xl leading-none">T</span>
           </div>
@@ -25,7 +26,7 @@ export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
               KEYBOARD ACCELERATOR
             </p>
           </div>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-3">
           <Button

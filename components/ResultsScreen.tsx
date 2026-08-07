@@ -8,6 +8,7 @@ interface ResultsScreenProps {
   metrics: TypingMetrics;
   testMode: string;
   onRetry: () => void;
+  onHome?: () => void;
   previousResults?: { wpm: number; accuracy: number; timestamp: number }[];
 }
 
@@ -15,6 +16,7 @@ export function ResultsScreen({
   metrics,
   testMode,
   onRetry,
+  onHome,
   previousResults = [],
 }: ResultsScreenProps) {
   const getGrade = (wpm: number) => {
@@ -115,7 +117,7 @@ export function ResultsScreen({
           Try Again
         </Button>
         <Button
-          onClick={() => window.location.href = '/'}
+          onClick={onHome ? onHome : () => (window.location.href = '/')}
           variant="outline"
           className="px-8 py-2 bg-white"
         >

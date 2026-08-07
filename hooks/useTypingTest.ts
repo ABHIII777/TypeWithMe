@@ -9,10 +9,45 @@ export interface TypingMetrics {
   totalChars: number;
 }
 
+const computeMetrics = (
+  input: string,
+  text: string,
+  elapsedSeconds: number
+): TypingMetrics => {
+  let correct = 0;
+  let incorrect = 0;
+
+  for (let i = 0; i < input.length; i++) {
+    if (input[i] === text[i]) {
+      correct++;
+    } else {
+      incorrect++;
+    }
+  }
+
+  const minutes = elapsedSeconds / 60;
+  const rawWpm = minutes > 0 ? Math.round((input.length / 5) / minutes) : 0;
+  const wpm =
+    minutes > 0 ? Math.round(((correct / 5) / minutes) * 100) / 100 : 0;
+  const accuracy =
+    input.length > 0
+      ? Math.round((correct / input.length) * 10000) / 100
+      : 0;
+
+  return {
+    wpm: Math.max(0, wpm),
+    rawWpm: Math.max(0, rawWpm),
+    accuracy,
+    correctChars: correct,
+    incorrectChars: incorrect,
+    totalChars: input.length,
+  };
+};
+
 export const useTypingTest = (
   text: string,
   duration: number,
-  onComplete?: (metrics: TypingMetrics) => void
+  onComplete?: (metrics: TypingMetrics, elapsedSeconds: number) => void
 ) => {
   const [input, setInput] = useState('');
   const [isActive, setIsActive] = useState(false);
@@ -28,6 +63,12 @@ export const useTypingTest = (
 
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const onCompleteRef = useRef(onComplete);
+  const completedRef = useRef(false);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  });
 
   useEffect(() => {
     if (input.length === 1 && !isActive) {
@@ -56,41 +97,24 @@ export const useTypingTest = (
   useEffect(() => {
     if (!isActive && input.length === 0) return;
 
-    let correct = 0;
-    let incorrect = 0;
-
-    for (let i = 0; i < input.length; i++) {
-      if (input[i] === text[i]) {
-        correct++;
-      } else {
-        incorrect++;
-      }
-    }
-
-    const elapsedSeconds = duration - timeLeft;
-    const minutes = elapsedSeconds / 60;
-    const rawWpm = Math.round((input.length / 5) / minutes) || 0;
-    const wpm = Math.round(((correct / 5) / minutes) * 100) / 100 || 0;
-    const accuracy =
-      input.length > 0
-        ? Math.round((correct / input.length) * 10000) / 100
-        : 0;
-
-    setMetrics({
-      wpm: Math.max(0, wpm),
-      rawWpm: Math.max(0, rawWpm),
-      accuracy,
-      correctChars: correct,
-      incorrectChars: incorrect,
-      totalChars: input.length,
-    });
+    setMetrics(computeMetrics(input, text, duration - timeLeft));
   }, [input, text, duration, timeLeft, isActive]);
 
   useEffect(() => {
-    if (!isActive && input.length > 0 && timeLeft === 0) {
-      onComplete?.(metrics);
-    }
-  }, [isActive, timeLeft, input.length, metrics, onComplete]);
+    if (completedRef.current) return;
+
+    const isDone =
+      !isActive && input.length > 0 && timeLeft === 0;
+    const finishedText = text.length > 0 && input.length >= text.length;
+
+    if (!isDone && !finishedText) return;
+
+    completedRef.current = true;
+    if (isActive) setIsActive(false);
+
+    const elapsedSeconds = Math.max(0, duration - timeLeft);
+    onCompleteRef.current?.(computeMetrics(input, text, elapsedSeconds), elapsedSeconds);
+  }, [isActive, timeLeft, input.length, text, duration]);
 
   const handleInput = useCallback(
     (value: string) => {
@@ -114,6 +138,7 @@ export const useTypingTest = (
       incorrectChars: 0,
       totalChars: 0,
     });
+    completedRef.current = false;
     inputRef.current?.focus();
   }, [duration]);
 
