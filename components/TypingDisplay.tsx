@@ -98,7 +98,27 @@ export function TypingDisplay({
               </div>
             ) : (
               <div className="flex flex-wrap gap-1 font-mono text-xl leading-relaxed">
-                {text.split('').map((char, idx) => renderChar(char, idx, idx === input.length))}
+                {(() => {
+                  const words = text.split(' ');
+                  let charIdx = 0;
+                  return words.map((word, wi) => {
+                    const wordStart = charIdx;
+                    const isLast = wi === words.length - 1;
+                    charIdx += word.length;
+                    const chars = word.split('').map((char, j) =>
+                      renderChar(char, wordStart + j, wordStart + j === input.length)
+                    );
+                    if (!isLast) {
+                      chars.push(renderChar(' ', charIdx, charIdx === input.length));
+                      charIdx += 1;
+                    }
+                    return (
+                      <span key={wi} className="inline-flex gap-1 whitespace-nowrap">
+                        {chars}
+                      </span>
+                    );
+                  });
+                })()}
               </div>
             )}
           </div>
