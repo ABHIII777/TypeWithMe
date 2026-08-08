@@ -108,7 +108,7 @@ export default function TypingTest() {
   useEffect(() => {
     regenerate();
     reset();
-  }, [testMode, textSize]);
+  }, [testMode, textSize, effectiveDuration]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
