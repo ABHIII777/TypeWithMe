@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware';
 
 export type TestMode = 'timed' | 'words' | 'quotes' | 'code';
 
+export type TextSize = 'small' | 'medium' | 'large';
+
 export interface TestResult {
   id: string;
   mode: TestMode;
@@ -29,6 +31,8 @@ interface TypingStore {
   setTimerDuration: (duration: number) => void;
   wordCount: number;
   setWordCount: (count: number) => void;
+  textSize: TextSize;
+  setTextSize: (size: TextSize) => void;
 }
 
 export const useTypingStore = create<TypingStore>()(
@@ -50,6 +54,8 @@ export const useTypingStore = create<TypingStore>()(
       setTimerDuration: (duration) => set({ timerDuration: duration }),
       wordCount: 50,
       setWordCount: (count) => set({ wordCount: count }),
+      textSize: 'medium',
+      setTextSize: (size) => set({ textSize: size }),
     }),
     {
       name: 'typing-store',

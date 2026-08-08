@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { X, Volume2, VolumeX } from 'lucide-react';
-import { useTypingStore, TestMode } from '@/lib/typing-store';
+import { useTypingStore, TestMode, TextSize } from '@/lib/typing-store';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -18,11 +18,14 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
     setTimerDuration,
     wordCount,
     setWordCount,
+    textSize,
+    setTextSize,
   } = useTypingStore();
 
   const modes: TestMode[] = ['timed', 'words', 'quotes', 'code'];
   const durations = [15, 30, 60, 120];
   const wordCounts = [25, 50, 75, 100];
+  const sizes: TextSize[] = ['small', 'medium', 'large'];
 
   const toggleClass = (active: boolean) =>
     `px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide border-2 border-black transition-colors btn-press ${
@@ -98,6 +101,25 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
                     className={toggleClass(wordCount === count)}
                   >
                     {count}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(testMode === 'quotes' || testMode === 'code') && (
+            <div>
+              <label className="block font-mono text-xs uppercase tracking-widest text-black mb-3">
+                Text Size
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setTextSize(size)}
+                    className={toggleClass(textSize === size)}
+                  >
+                    {size.charAt(0).toUpperCase() + size.slice(1)}
                   </button>
                 ))}
               </div>

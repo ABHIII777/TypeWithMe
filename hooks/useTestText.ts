@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import texts from '@/data/texts.json';
+import { TextSize } from '@/lib/typing-store';
 
 export interface CodeLine {
   indent: string;
@@ -13,18 +14,17 @@ type GeneratedText = {
 
 const generateText = (
   mode: 'words' | 'quotes' | 'code',
-  wordCount: number
+  wordCount: number,
+  textSize: TextSize = 'medium'
 ): GeneratedText => {
   if (mode === 'quotes') {
-    const buckets = [texts.quotes.small, texts.quotes.medium, texts.quotes.large];
-    const bucket = buckets[Math.floor(Math.random() * buckets.length)];
+    const bucket = texts.quotes[textSize];
     const randomQuote = bucket[Math.floor(Math.random() * bucket.length)];
     return { text: randomQuote.text };
   }
 
   if (mode === 'code') {
-    const buckets = [texts.code.small, texts.code.medium, texts.code.large];
-    const bucket = buckets[Math.floor(Math.random() * buckets.length)];
+    const bucket = texts.code[textSize];
     const raw = bucket[Math.floor(Math.random() * bucket.length)];
 
     const codeLines: CodeLine[] = raw.split('\n').map((line) => {
@@ -52,19 +52,20 @@ const generateText = (
 
 export const useTestText = (
   mode: 'words' | 'quotes' | 'code',
-  wordCount: number = 50
+  wordCount: number = 50,
+  textSize: TextSize = 'medium'
 ) => {
   const [text, setText] = useState('');
   const [codeLines, setCodeLines] = useState<CodeLine[] | undefined>(undefined);
 
   useEffect(() => {
-    const generated = generateText(mode, wordCount);
+    const generated = generateText(mode, wordCount, textSize);
     setText(generated.text);
     setCodeLines(generated.codeLines);
-  }, [mode, wordCount]);
+  }, [mode, wordCount, textSize]);
 
   const regenerate = () => {
-    const generated = generateText(mode, wordCount);
+    const generated = generateText(mode, wordCount, textSize);
     setText(generated.text);
     setCodeLines(generated.codeLines);
   };
