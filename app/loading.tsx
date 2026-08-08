@@ -5,7 +5,7 @@ export default function RootLoading() {
         <span className="text-yellow-300 font-bold text-2xl leading-none">T</span>
       </div>
       <p className="font-mono text-xs uppercase tracking-widest text-black/70 animate-pulse">
-        loading typemaster...
+        loading typewithme...
       </p>
       <div className="w-48 h-3 bg-white border-2 border-black brutal-shadow overflow-hidden">
         <div className="h-full bg-yellow-300 animate-pulse w-2/3" />

@@ -14,8 +14,8 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Typemaster - Typing Test',
-  description: 'Test your typing speed and accuracy with Typemaster',
+  title: 'TypeWithMe - Typing Test',
+  description: 'Test your typing speed and accuracy with TypeWithMe',
   generator: 'v0.app',
   icons: {
     icon: [
