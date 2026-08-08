@@ -43,6 +43,7 @@ export default function TypingTest() {
     testMode,
     timerDuration,
     wordCount,
+    textSize,
     soundEnabled,
     addResult,
     results,
@@ -50,7 +51,8 @@ export default function TypingTest() {
 
   const { text, regenerate, codeLines } = useTestText(
     testMode as 'words' | 'quotes' | 'code',
-    wordCount
+    wordCount,
+    textSize
   );
 
   const effectiveDuration = testMode === 'timed' ? timerDuration : 600;
@@ -106,7 +108,7 @@ export default function TypingTest() {
   useEffect(() => {
     regenerate();
     reset();
-  }, [testMode]);
+  }, [testMode, textSize]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -183,6 +185,8 @@ export default function TypingTest() {
                   timeLeft={timeLeft}
                   metrics={metrics}
                   codeLines={codeLines}
+                  mode={testMode}
+                  duration={effectiveDuration}
                 />
               </>
             )}

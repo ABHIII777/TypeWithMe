@@ -10,12 +10,13 @@ interface TypingDisplayProps {
   timeLeft: number;
   metrics: TypingMetrics;
   codeLines?: CodeLine[];
+  mode?: 'timed' | 'words' | 'quotes' | 'code';
+  duration?: number;
 }
 
 const STAT_TILES = [
   { label: 'WPM', value: (m: TypingMetrics) => m.wpm.toFixed(2), color: 'text-black' },
   { label: 'ACC', value: (m: TypingMetrics) => `${m.accuracy.toFixed(1)}%`, color: 'text-black' },
-  { label: 'TIME', value: (m: TypingMetrics, timeLeft: number) => `${timeLeft}s`, color: 'text-black' },
 ] as const;
 
 export function TypingDisplay({
@@ -25,7 +26,11 @@ export function TypingDisplay({
   timeLeft,
   metrics,
   codeLines,
+  mode = 'timed',
+  duration = 0,
 }: TypingDisplayProps) {
+  const countdown = mode === 'timed';
+  const shownTime = countdown ? timeLeft : Math.max(0, duration - timeLeft);
   const offsets: number[] = [];
   if (codeLines) {
     let acc = 0;
@@ -65,13 +70,21 @@ export function TypingDisplay({
             className={`bg-white px-6 py-3 border-2 border-black brutal-shadow ${tile.color}`}
           >
             <div className="font-mono text-3xl leading-none tracking-tight">
-              {tile.value(metrics, timeLeft)}
+              {tile.value(metrics)}
             </div>
             <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">
               {tile.label}
             </div>
           </div>
         ))}
+        <div className="bg-white px-6 py-3 border-2 border-black brutal-shadow text-black">
+          <div className="font-mono text-3xl leading-none tracking-tight">
+            {shownTime}s
+          </div>
+          <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">
+            {countdown ? 'TIME' : 'ELAPSED'}
+          </div>
+        </div>
       </div>
 
       <div className="w-full max-w-3xl">
