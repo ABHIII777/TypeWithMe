@@ -50,22 +50,22 @@ export function ResultsScreen({
         </h2>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 max-w-md">
+      <div className="grid grid-cols-3 gap-6 max-w-lg">
         <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
-          <div className="font-mono text-4xl font-bold text-black">{metrics.wpm.toFixed(2)}</div>
+          <div className="font-mono text-3xl font-bold text-black">{metrics.wpm.toFixed(2)}</div>
           <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">WPM</div>
         </div>
         <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
-          <div className="font-mono text-4xl font-bold text-black">{metrics.accuracy.toFixed(1)}%</div>
+          <div className="font-mono text-3xl font-bold text-black">{metrics.accuracy.toFixed(1)}%</div>
           <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">Accuracy</div>
         </div>
         <div className="bg-white border-2 border-black brutal-shadow px-6 py-4 text-center">
-          <div className="font-mono text-4xl font-bold text-black">{metrics.rawWpm}</div>
+          <div className="font-mono text-3xl font-bold text-black">{metrics.rawWpm}</div>
           <div className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-black/60">Raw WPM</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 max-w-md w-full text-sm">
+      <div className="grid grid-cols-2 gap-6 max-w-lg w-full text-sm">
         <div className="bg-white border-2 border-black brutal-shadow p-4">
           <div className="font-mono text-[10px] uppercase tracking-widest text-black/60">Correct</div>
           <div className="mt-1 font-mono text-lg font-bold">{metrics.correctChars}</div>
