@@ -20,7 +20,7 @@ export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
           </div>
           <div className="leading-none">
             <h1 className="text-2xl font-bold text-black tracking-tight uppercase">
-              Typemaster
+              TypeWithMe
             </h1>
             <p className="font-mono text-[10px] uppercase tracking-widest text-black/70">
               KEYBOARD ACCELERATOR

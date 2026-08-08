@@ -35,7 +35,7 @@ export default function LandingPage() {
             </div>
             <div className="leading-none">
               <h1 className="text-2xl font-bold text-black tracking-tight uppercase">
-                Typemaster
+                TypeWithMe
               </h1>
               <p className="font-mono text-[10px] uppercase tracking-widest text-black/70">
                 KEYBOARD ACCELERATOR
@@ -112,7 +112,7 @@ export default function LandingPage() {
       <footer className="border-t-[3px] border-black bg-white">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
           <p className="font-mono text-[10px] uppercase tracking-widest text-black/60">
-            TYPEMASTER © 2026 — BUILT WITH BLOOD, SWEAT &amp; BRUTALISM
+            TYPEWITHME © 2026 — BUILT WITH BLOOD, SWEAT &amp; BRUTALISM
           </p>
           <p className="font-mono text-[10px] uppercase tracking-widest text-black/60">
             wpm &gt; life
