@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: typewithme-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: typewithme
+      POSTGRES_PASSWORD: typewithme
+      POSTGRES_DB: typewithme
+    ports:
+      - "5432:5432"
+    volumes:
+      - typewithme-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U typewithme -d typewithme"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: typewithme-web
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: postgresql://typewithme:typewithme@db:5432/typewithme
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  typewithme-pgdata:
