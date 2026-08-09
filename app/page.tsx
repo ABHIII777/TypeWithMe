@@ -48,12 +48,11 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-16 gap-12">
-        <section className="text-center max-w-3xl animate-pop">
+      <main className="flex-1 flex flex-col items-center px-4 py-16 gap-16">
+        <section className="text-center w-full max-w-3xl mx-auto flex flex-col items-center animate-pop pt-4">
           <div className="inline-block bg-white border-2 border-black brutal-shadow px-4 py-1 font-mono text-xs uppercase tracking-widest mb-6 -rotate-1">
             <span className="text-black/60">// the internet&apos;s brutalist typing trainer</span>
           </div>
-
           <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tight leading-none">
             Type
             <span className="bg-yellow-300 border-2 border-black brutal-shadow px-3 mx-2 inline-block -rotate-2">
@@ -63,12 +62,10 @@ export default function LandingPage() {
             Beat the
             <span className="text-red-600"> Clock</span>
           </h2>
-
           <p className="mt-8 font-mono text-sm md:text-base uppercase tracking-widest text-black/70 max-w-xl mx-auto">
             No fluff. No ads. Just raw speed tests with hard-edged feedback.
             Hit the button and start hammering those keys.
           </p>
-
           <div className="mt-10">
             <Button
               asChild
@@ -78,10 +75,27 @@ export default function LandingPage() {
               <Link href="/test">Start Typing →</Link>
             </Button>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-black/50">
-              [no account needed] • [free forever] • [esc to restart]
+              [no account needed] [free forever] [esc to restart]
             </p>
           </div>
         </section>
+
+        <div className="border-y-[3px] border-black bg-[#c8ff00] w-full -rotate-1">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 text-center md:text-left">
+            <span className="bg-black text-[#c8ff00] font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 shrink-0">
+              Up Next
+            </span>
+            <p className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-black">
+              Introducing Multiplayer mode — here, you can compete with your friends.
+            </p>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-black/60 shrink-0">
+              &mdash; me
+            </span>
+            <Button asChild size="sm" className="bg-black text-[#c8ff00] shadow-[3px_3px_0_0_#000] hover:bg-black/80">
+              <Link href="/login">Compete &mdash; Now</Link>
+            </Button>
+          </div>
+        </div>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full">
           {FEATURES.map((feature) => (
