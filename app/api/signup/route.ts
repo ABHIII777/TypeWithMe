@@ -1,8 +1,7 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
 import { users } from "@/lib/db/schema";
-import { loginSchema, signupSchema } from "@/lib/validators";
+import { signupSchema } from "@/lib/validators";
 import { cookies } from "next/headers";
 import { signToken } from "@/lib/auth";
 import bcrypt from "bcrypt"
@@ -30,16 +29,16 @@ export async function POST(req: Request) {
 
         console.log(user)
 
-        // const token = signToken({ userId: user[0].id });
+        const token = signToken({ userId: user[0].id });
 
-        // (await cookies()).set("token", token, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     path: "/"
-        // });
+        (await cookies()).set("token", token, {
+            httpOnly: true,
+            secure: true,
+            path: "/"
+        });
 
         return NextResponse.json({ message: "User Crested" }, { status: 200 })
     } catch (err) {
-        return NextResponse.json({ message: "User Already Exist" }, { status: 400 })
+        return NextResponse.json({error: err}, { status: 400 })
     }
 }

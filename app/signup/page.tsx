@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from "next/navigation"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +18,8 @@ export default function SignupPage() {
     email: "",
     password: "",
   })
+
+  const router = useRouter();
   
   const handleSignup = async() => {
 
@@ -30,8 +33,10 @@ export default function SignupPage() {
     const res = await data.json();
     if (res.ok) {
       console.log("Data stored")
+      router.push("/login")
     } else {
       console.log(res)
+      router.push("/")
     }
 
   }
