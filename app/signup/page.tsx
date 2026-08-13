@@ -31,12 +31,11 @@ export default function SignupPage() {
     });
 
     const res = await data.json();
-    if (res.ok) {
+    if (data.ok) {
       console.log("Data stored")
       router.push("/login")
     } else {
       console.log(res)
-      router.push("/")
     }
 
   }
