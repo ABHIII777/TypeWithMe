@@ -12,6 +12,29 @@ const inputClassName =
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  })
+  
+  const handleSignup = async() => {
+
+    console.log(formData)
+
+    const data = await fetch("/api/signup", {
+      method: "POST",
+      body: JSON.stringify(formData)
+    });
+
+    const res = await data.json();
+    if (res.ok) {
+      console.log("Data stored")
+    } else {
+      console.log(res)
+    }
+
+  }
 
   return (
     <div className="min-h-screen bg-brutal-grid flex flex-col">
@@ -67,7 +90,10 @@ export default function SignupPage() {
               <Input
                 type="text"
                 placeholder="[what do we call you]"
+                value={formData.name}
                 className={inputClassName}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
               />
             </div>
 
@@ -79,6 +105,9 @@ export default function SignupPage() {
                 type="email"
                 placeholder="[your@email.com]"
                 className={inputClassName}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
               />
             </div>
 
@@ -91,6 +120,9 @@ export default function SignupPage() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="[minimum 8 chars]"
                   className={`${inputClassName} pr-12`}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value})}
+                  required
                 />
                 <button
                   type="button"
@@ -114,6 +146,7 @@ export default function SignupPage() {
               type="button"
               size="lg"
               className="w-full h-12 bg-black text-[#c8ff00] text-sm shadow-[4px_4px_0_0_#ffd400] hover:bg-black/85"
+              onClick={handleSignup}
             >
               Sign up →
             </Button>
