@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from "next/navigation"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,30 @@ import { Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const router = useRouter();
+
+  const handleLogin = async() => {
+    const data = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password
+      })
+    })
+
+    // const res = await data.json();
+
+    if(data.ok) {
+      router.push("/test")
+    } else {
+      alert("Invalid Credentials. Please check your respective details.")
+    }
+  }
 
   return (
     <div className="min-h-screen bg-brutal-grid flex flex-col">
@@ -62,6 +87,8 @@ export default function LoginPage() {
               <Input
                 type="text"
                 placeholder="[your handle]"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 className="h-12 rounded-none border-2 border-black bg-white font-mono text-sm tracking-widest placeholder:font-mono placeholder:text-xs placeholder:uppercase placeholder:tracking-widest placeholder:text-black/30 focus-visible:border-black focus-visible:ring-black focus-visible:ring-[3px] focus-visible:shadow-[4px_4px_0_0_#ffd400]"
               />
             </div>
@@ -83,6 +110,8 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="[********]"
                   className="h-12 rounded-none border-2 border-black bg-white pr-12 font-mono text-sm tracking-widest placeholder:font-mono placeholder:text-black/30 focus-visible:border-black focus-visible:ring-black focus-visible:ring-[3px] focus-visible:shadow-[4px_4px_0_0_#ffd400]"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
                 <button
                   type="button"
@@ -103,6 +132,7 @@ export default function LoginPage() {
               type="button"
               size="lg"
               className="w-full h-12 bg-black text-[#c8ff00] text-sm shadow-[4px_4px_0_0_#ffd400] hover:bg-black/85"
+              onClick={handleLogin}
             >
               Login →
             </Button>
