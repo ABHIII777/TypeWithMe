@@ -2,14 +2,15 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Settings, BarChart3 } from 'lucide-react';
+import { Settings, BarChart3, Users } from 'lucide-react';
 
 interface HeaderProps {
   onSettingsClick: () => void;
   onStatsClick: () => void;
+  onMultiplayerClick: () => void;
 }
 
-export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
+export function Header({ onSettingsClick, onStatsClick, onMultiplayerClick }: HeaderProps) {
   return (
     <header className="border-b-[3px] border-black bg-[#c8ff00] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -45,6 +46,15 @@ export function Header({ onSettingsClick, onStatsClick }: HeaderProps) {
           >
             <Settings className="w-4 h-4 mr-1" />
             Settings
+          </Button>
+
+          <Button
+            onClick={onMultiplayerClick}
+            variant="secondary"
+            size="sm"
+          >
+            <Users className="w-4 h-4 mr-1" />
+            Multiplayer
           </Button>
         </div>
       </div>
