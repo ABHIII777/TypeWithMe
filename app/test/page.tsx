@@ -137,7 +137,7 @@ export default function TypingTest() {
       className="min-h-screen bg-brutal-grid"
       onClick={() => inputRef.current?.focus()}
     >
-      <Header onSettingsClick={() => setShowSettings(true)} onStatsClick={() => setShowStats(true)} />
+      <Header onSettingsClick={() => setShowSettings(true)} onStatsClick={() => setShowStats(true)} onMultiplayerClick={() => router.push("/multiplayer")}/>
 
       <main className="max-w-7xl mx-auto">
         {testComplete ? (
